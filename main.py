@@ -8,43 +8,38 @@ alphabet = [
     'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
 ]
 
-#input from user
-direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n").lower()
-text = input("Type your message:\n").lower()
-shift = int(input("Type the shift number:\n"))
 
-# TODO-1: to encode: decrypt() func  takes 'original_text' and 'shift_amount' as inputs
-# def encrypt(original_text, shift_amount):
-#     cipher_text = ""
-#     for letter in original_text:
-#         shifted_position = alphabet.index(letter) + shift_amount
-#         shifted_position %= len(alphabet)
-#         cipher_text += alphabet[shifted_position]
-#     print(f"Here is the encoded result: {cipher_text}")
-
-# TODO-2: to decode: encrypt() func (decode the encoded message to readable text)
-# def decrypt(original_text, shift_amount):
-#     decode_text = ""
-#     for letter in original_text:
-#         shifted_position = alphabet.index(letter) - shift_amount
-#         shifted_position %= len(alphabet)
-#         decode_text += alphabet[shifted_position]
-#     print(f"Here is the decoded result: {decode_text}")
-
-# TODO-3: Combine the 'encrypt()' and 'decrypt()' functions into one function called 'caesar()'.
-#  user input 'direction' variable to determine the func to use 
-
+#combine both encrypt and decrypt into one function
+#direction based on user input 'direction' variable
 def caesar(original_text, shift_amount, encode_or_decode):
     output_text = ""
+    if encode_or_decode == "decode":  #fix the position of this logic where decode not working as expected
+        shift_amount *= -1
+
     for letter in original_text:
-        if encode_or_decode == "decode":
-            shift_amount *= -1
-        shifted_position = alphabet.index(letter) + shift_amount
-        shifted_position %= len(alphabet)
-        output_text += alphabet[shifted_position]
+
+        if letter not in alphabet:
+            output_text += letter
+        else:
+            shifted_position = alphabet.index(letter) + shift_amount
+            shifted_position %= len(alphabet)
+            output_text += alphabet[shifted_position]
     print(f"Here is the {encode_or_decode}d result: {output_text}")
 
 
-#encrypt(text, shift)
-#decrypt(text, shift)
-caesar(text, shift, direction)
+# restart the program until user wants to exit
+cont = True
+while cont:
+
+    direction = input(
+        "Type 'encode' to encrypt, type 'decode' to decrypt:\n").lower()
+    text = input("Type your message:\n").lower()
+    shift = int(input("Type the shift number:\n"))
+
+    caesar(original_text=text, shift_amount=shift, encode_or_decode=direction)
+
+    restart = input(
+        "Type 'yes' if you want to go again. Otherwise, type 'no'.\n").lower()
+    if restart == "no":
+        cont = False
+        print("Thank you for using!")
